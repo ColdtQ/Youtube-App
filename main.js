@@ -44,7 +44,7 @@ function createWindow() {
   if (process.platform === 'win32') var trayIcon = new Tray(path.join(__dirname, './icons/icon.ico'))
   else trayIcon = new Tray(path.join(__dirname, './icons/icon.png'))
 
-  app.on('browser-window-nlur', (event, win) => {
+  app.on('browser-window-blur', (event, win) => {
     trayIcon.on('click', () => {
       mainWindow.show()
     })
