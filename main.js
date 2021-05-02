@@ -8,6 +8,7 @@ const {
 const electron = require('electron');
 const path = require('path')
 const fs = require('fs')
+const client = require('discord-rich-presence')('838508008949415996')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -20,7 +21,7 @@ function createWindow() {
     height: 600,
     minWidth: 300,
     minHeight: 300,
-    frame: false,
+    frame: true,
     title: 'Youtube',
     // Enables DRM
     webPreferences: {
@@ -48,6 +49,8 @@ function createWindow() {
       mainWindow.hide()
     })
   })
+
+
   
 
   // Set userAgent
@@ -56,12 +59,47 @@ function createWindow() {
   // load the renderer of the app.
   mainWindow.loadFile('renderer.js');
 
+  mainWindow.webContents.on('media-started-playing', function () {
+    client.updatePresence({
+        state: "on YouTube",
+        details: "Watching YouTube",
+        startTimestamp: Date.now(),
+        largeImageKey: 'yt',
+        smallImageKey: 'play',
+        instance: false,
+    });
+});
+
+
+// Update rich presence when YouTube TV is paused or turned off.
+mainWindow.webContents.on('media-paused', function () {
+    client.updatePresence({
+        state: "on YouTube",
+        details: "Watching Youtube (Paused)",
+        StartTimestamp: Date.now(),
+        largeImageKey: 'yt',
+        smallImageKey: 'pause',
+        instance: false,
+    });
+});
+
+// Start rich presence service into idle mode.
+client.updatePresence({
+    state: 'on YouTube',
+    details: 'Browsing Youtube',
+    startTimestamp: Date.now(),
+    largeImageKey: 'yt',
+    smallImageKey: 'stop',
+    instance: false,
+});
+
+
+
+
   // Load the URL
   mainWindow.loadURL('https://youtube.com');
 
   // Custom TitleBar WIP
-  //mainWindow.webContents.executeJavaScript("")
-  mainWindow.webContents.executeJavaScript("console.log(\"Enabled custom titlebar.\")")
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
