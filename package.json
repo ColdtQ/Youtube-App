@@ -1,0 +1,42 @@
+{
+  "name": "youtubeapp",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "init": "install",
+    "start": "electron --enable-accelerated-mjpeg-decode --enable-accelerated-video --ignore-gpu-blacklist --enable-native-gpu-memory-buffers --enable-gpu-rasterization .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "cold.tq",
+    "mac": {
+      "category": "coldtq.youtube.app"
+    },
+    
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "coldtq",
+        "repo": "accurate",
+        "vPrefixedTagName": true,
+        "private": true,
+        "releaseType": "draft"
+      }
+    ],
+    "icon": "./assets/icon.ico"
+    
+  },
+  "author": "coldtq",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^9.4.0",
+    "electron-builder": "^22.10.5",
+    "electron-packager": "^15.2.0"
+  },
+  "dependencies": {
+    "discord-rich-presence": "^0.0.8"
+  }
+}
