@@ -16,7 +16,7 @@ let mainWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    icon: path.join(__dirname, './icons/icon.png'),
+    icon: './icons/icon.png',
     width: 1024,
     height: 600,
     minWidth: 300,
@@ -35,11 +35,6 @@ function createWindow() {
   // Hide toolbar tooltips / bar
   mainWindow.setMenuBarVisibility(false);
 
-  // Fix scrollbars
-
-  mainWindow.webContents.once('did-stop-loading', async () => {
-    await mainWindow.webContents.insertCSS('::-webkit-scrollbar { display: none; }')
-  })
   // Tray Icon
   if (process.platform === 'win32') var trayIcon = new Tray(path.join(__dirname, './icons/icon.ico'))
   else trayIcon = new Tray(path.join(__dirname, './icons/icon.png'))
@@ -93,11 +88,14 @@ client.updatePresence({
     instance: false,
 });
 
-
-
-
   // Load the URL
   mainWindow.loadURL('https://youtube.com');
+
+    // Fix scrollbars
+
+    mainWindow.webContents.once('did-stop-loading', async () => {
+      await mainWindow.webContents.insertCSS('::-webkit-scrollbar { display: none; }')
+    })
 
   // Custom TitleBar WIP
 
